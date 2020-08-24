@@ -1,0 +1,10 @@
+._*
+.idea
+.vscode
+node_modules
+*~
+*.log
+
+test*
+*.bk
+.DS_Store
