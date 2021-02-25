@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CopyDemo</title>
+</head>
+<body>
+<div id="text-content">
+  <p>测试p1</p>
+  <p>测试p2</p>
+</div>
+<button id="copy-text-btn">复制</button>
+
+<script type="text/javascript">
+
+  function copyText(text) {
+    var textarea = document.createElement("textarea");//创建input对象
+    var currentFocus = document.activeElement;//当前获得焦点的元素
+    var flag = false;
+    document.body.appendChild(textarea);//添加元素
+    textarea.value = text;
+    console.log('factory:', text);
+    textarea.focus();
+    if (textarea.setSelectionRange)
+      textarea.setSelectionRange(0, textarea.value.length);//获取光标起始位置到结束位置
+    else
+      textarea.select();
+    try {
+      flag = document.execCommand("copy");//执行复制
+    } catch (err) {
+      console.error("Can't copy:" + err.toString())
+    }
+    document.body.removeChild(textarea);  //删除元素
+    currentFocus.focus();
+    return flag;
+  }
+
+
+  // 复制全文
+  document.getElementById("copy-text-btn").onclick = function () {
+    var ssrsss = document.getElementById("text-content").innerText.replace(/\ +/g, ""); //获取文本并去掉空格
+    var flag = copyText(ssrsss); //传递文本
+    alert(flag ? '复制成功' : '复制失败')
+  };
+
+</script>
+</body>
+</html>
