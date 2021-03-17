@@ -1,0 +1,21 @@
+{
+  "name": "front_end",
+  "version": "1.0.0",
+  "description": "Web前端相关",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server --ignore='static'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llf-1996/front_end.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/llf-1996/front_end/issues"
+  },
+  "homepage": "https://github.com/llf-1996/front_end#readme"
+}
