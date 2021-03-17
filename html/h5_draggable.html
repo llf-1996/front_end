@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>拖放</title>
+  <style>
+    h2 {
+      font-size: 20px;
+      color: gray;
+    }
+
+    div#left, div#right {
+      width: 120px;
+      height: 300px;
+      float: left;
+      margin: 10px 100px 10px 0px;
+      border: 1px solid #000;
+      overflow-y: auto;
+    }
+
+    div label {
+      font-size: 22px;
+      font-weight: bold;
+      width: 100%;
+      display: inline-block;
+      padding: 4px 0;
+      text-align: center;
+      margin: 0px 0 2px 0;
+      color: #fff;
+      background-color: gray;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h2>H5拖放</h2>
+    <!-- 左边元素框 -->
+    <div id="left">
+      <label draggable="true">A</label>
+      <label draggable="true">B</label>
+      <label draggable="true">C</label>
+      <label draggable="true">D</label>
+      <label draggable="true">E</label>
+    </div>
+    <!-- 右边元素框 -->
+    <div id="right"></div>
+  </div>
+
+
+  <script>
+    var moveItem = document.getElementsByTagName('label');
+    for (let i = 0; i < moveItem.length; i++) {
+      //动态设置label元素id
+      moveItem[i].setAttribute('id', 'label' + i);
+      moveItem[i].ondragstart = function (ev) {
+        // dataTransfer：拖放的数据传递对象
+        // dataTransfer.setData() 方法设置被拖数据的数据类型和值
+        ev.dataTransfer.setData("Text", this.id);
+      };
+    }
+
+    // 事件
+    // dragstart   //当用户开始拖动一个元素或者一个选择文本的时候 dragstart 事件就会触发。
+    // drag　　    //当元素或者选择的文本被拖动时触发 drag 事件 (每几百毫秒)
+    // dragenter   //当拖动的元素或被选择的文本进入有效的放置目标时， dragenter 事件被触发。
+    // dragleave   //当一个被拖动的元素或者被选择的文本离开一个有效的拖放目标时，将会触发dragleave 事件
+    // dragover    //当元素或者选择的文本被拖拽到一个有效的放置目标上时，触发 dragover 事件(每几百毫秒触发一次)。
+    // drop       //当一个元素或是选中的文字被拖拽释放到一个有效的释放目标位置时，drop 事件被抛出。
+    // dragend    //拖放事件在拖放操作结束时触发(通过释放鼠标按钮或单击escape键)
+
+    // 左=>右
+    document.getElementById('right').ondragover = function (ev) {
+      console.log('dragover event');
+      ev.preventDefault();  //阻止向上冒泡
+      ev.stopPropagation();
+    };
+    document.getElementById('right').ondrop = function (ev) {
+      // 阻止默认事件
+	    ev.preventDefault();
+      ev.stopPropagation();  // 火狐浏览器不生效
+      var id = ev.dataTransfer.getData('Text');
+      // 当前拖动的dom元素
+      var elem = document.getElementById(id);
+      // 目标元素
+      var toElem = ev.target.id;
+      if (toElem == 'right') {
+        // div#left元素内的子元素拖放到div#right元素内，拖放元素添加到div#right元素尾部
+        this.appendChild(elem);
+      } else {
+        // div#left元素内的子元素位置互换，拖放元素插入到目标元素之前
+        this.insertBefore(elem, document.getElementById(toElem));
+      }
+    }
+
+    // 右=>左
+    document.getElementById('left').ondragover = function (ev) {
+      ev.preventDefault(); //阻止向上冒泡
+    };
+    document.getElementById('left').ondrop = function (ev) {
+	    ev.preventDefault();
+      ev.stopPropagation();
+      var id = ev.dataTransfer.getData('Text');
+      var elem = document.getElementById(id);
+      var toElem = ev.target.id;
+      if (toElem == 'left') {
+        // div#right元素内的子元素拖放到div#left元素内，拖放元素添加到div#left元素尾部
+        this.appendChild(elem);
+      } else {
+        // div#right元素内的子元素位置互换，拖放元素插入到目标元素之前
+        this.insertBefore(elem, document.getElementById(toElem));
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
